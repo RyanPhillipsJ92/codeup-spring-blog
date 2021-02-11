@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MathController {
 
-    @GetMapping("/")
-    @ResponseBody
-    public String landing_page(){
-        return "This is the landing page!";
-    }
 
 
     @RequestMapping(path = "/add/{number1}/and/{number2}", method = RequestMethod.GET)

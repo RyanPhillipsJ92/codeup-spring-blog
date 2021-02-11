@@ -4,14 +4,9 @@
 <body>
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-<!-- This is where we iterate through the Posts ArrayList -->
-<h1>Here are all the posts!</h1>
-
-<div th:each="post : ${posts}">
-    <h1 th:text="${post.title}"></h1>
-    <p th:text="${post.body}"></p>
-</div>
-
+<h1>Here is a single post !</h1>
+<h2 th:text="${post.title}"></h2>
+<h2 th:text="${post.body}"></h2>
 
 <div th:replace="partials/scripts :: assets"></div>
 </body>
