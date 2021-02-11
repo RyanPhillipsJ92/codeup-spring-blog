@@ -1,52 +1,39 @@
 package com.spring.springblog.controllers;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class PostController {
-//******************
-// ALL POSTS
-//******************
-    @RequestMapping(path = "/posts", method = RequestMethod.GET)
-    @ResponseBody
-    public  String posts(){
-        return "posts index page";
+
+    @GetMapping("/posts")
+    public String postsIndex(Model model){
+
+        model.addAttribute("title", "All Posts");
+        return "posts/index";
     }
 
-
-    //******************
-//    INDIVUAL POST
-    //******************
-    @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public  String post(@PathVariable String id){
-        return "View an individual post";
-    }
-    //******************
-//    Get form for CREATE POST
-    //******************
-    @RequestMapping(path = "/posts/create", method = RequestMethod.GET)
-    @ResponseBody
-    public  String post_create(){
-        return "View form for creating a post";
+    @GetMapping("/posts/{id}")
+    public String postView(Model model){
+//        get single post by id later
+        model.addAttribute("title", "Single Posts");
+        return "posts/show";
     }
 
-
-    //******************
-// POST CREATE URL
-    //******************
-    @RequestMapping(path = "/posts/create", method = RequestMethod.POST)
+    @GetMapping("/posts/create")
     @ResponseBody
-    public  String post_post(){
-        return "create a new post";
+    public String postForm(){
+        return "Create a post here!";
+    }
+
+    @PostMapping("/posts/create")
+    @ResponseBody
+    public String createPost(){
+        return "Creating a new post...";
     }
 }
-
-
 
 
 
