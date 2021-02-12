@@ -10,6 +10,9 @@
 <div th:each="post : ${posts}">
     <h1 th:text="${post.title}"></h1>
     <p th:text="${post.body}"></p>
+    <a th:href="@{'/posts/' + ${post.id}}">View</a>
+    <a th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>
+    <a th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
 </div>
 
 

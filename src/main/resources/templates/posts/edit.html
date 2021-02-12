@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: header-links"></head>
+<body>
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+<!-- This is where we iterate through the Posts ArrayList -->
+<h1> Edit the posts!</h1>
+
+<form action="/posts/edit" method="post">
+    <div class="form-group">
+        <input class="form-control" type="text" name="title" id="title" th:value="${post.title}">
+        <textarea class="form-control" type="text" name="body" id="body" th:text="${post.body}"></textarea>
+        <input style="visibility: hidden" type="text" name="id" th:value="${post.id}"/>
+    </div>
+        <input type="submit" />
+</form>
+
+<!--<div th:each="post : ${post}">-->
+<!--    <h1 th:text="${post.title}"></h1>-->
+<!--    <p th:text="${post.body}"></p>-->
+
+<div th:replace="partials/scripts :: assets"></div>
+</body>
+</html>
