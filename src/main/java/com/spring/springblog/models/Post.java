@@ -14,21 +14,25 @@ public class Post {
     private String body;
 
     @ManyToOne
-    private User userPosts;
-
-
-
-
-
-
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Post() {
     }
 
-    public Post(String title, String body, long id) {
+    public Post(String title, String body, long id, User user) {
         this.title = title;
         this.body = body;
         this.id = id;
+        user = this.user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {

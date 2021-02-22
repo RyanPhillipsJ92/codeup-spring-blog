@@ -1,25 +1,29 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/head :: header-links"></head>
+<head th:replace="partials/header :: head">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
 <body>
-<nav th:replace="partials/navbar :: navbar"></nav>
 
-<!-- This is where we iterate through the Posts ArrayList -->
-<h1> Edit the posts!</h1>
+<div class="container">
+    <h1>Edit your post</h1>
+    <form action="/posts/edit" method="post">
+        <input style="visibility: hidden" type="text" name="id" th:value="${post.id}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" name="title" class="form-control" type="text" th:value="${post.title}">
+        </div>
+        <div class="form-group">
+            <label for="body">Post Body</label>
+            <textarea id="body" name="body" class="form-control" type="text" th:text="${post.body}"></textarea>
+        </div>
+        <input type="submit" class="btn btn-block btn-primary">
+    </form>
+</div>
 
-<form action="/posts/edit" method="post">
-    <div class="form-group">
-        <input class="form-control" type="text" name="title" id="title" th:value="${post.title}">
-        <textarea class="form-control" type="text" name="body" id="body" th:text="${post.body}"></textarea>
-        <input style="visibility: hidden" type="text" name="id" th:value="${post.id}"/>
-    </div>
-        <input type="submit" />
-</form>
 
-<!--<div th:each="post : ${post}">-->
-<!--    <h1 th:text="${post.title}"></h1>-->
-<!--    <p th:text="${post.body}"></p>-->
-
-<div th:replace="partials/scripts :: assets"></div>
 </body>
 </html>

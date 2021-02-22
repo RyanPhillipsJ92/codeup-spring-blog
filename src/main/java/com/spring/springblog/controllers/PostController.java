@@ -2,6 +2,7 @@ package com.spring.springblog.controllers;
 
 
 import com.spring.springblog.Repositories.PostRepository;
+import com.spring.springblog.Repositories.UserRepository;
 import com.spring.springblog.models.Post;
 
 import org.springframework.stereotype.Controller;
@@ -10,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PostController {
 
 
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao){
+    public PostController(PostRepository postDao, UserRepository userDao){
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/posts")
@@ -37,7 +38,8 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String postView(@PathVariable long id, Model model){
-//        get single post by id later
+//        get single post by id
+        model.addAttribute("title", "Single Post");
         model.addAttribute("post", postDao.getOne(id));
         return "posts/show";
     }
