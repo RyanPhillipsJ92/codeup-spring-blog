@@ -13,6 +13,15 @@ public class Post {
     @Column(nullable = false)
     private String body;
 
+    @ManyToOne
+    private User userPosts;
+
+
+
+
+
+
+
     public Post() {
     }
 
