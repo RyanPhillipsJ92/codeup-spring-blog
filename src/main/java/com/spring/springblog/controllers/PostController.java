@@ -77,6 +77,7 @@ public class PostController {
 
        return "posts/edit";
 
+
     }
     @PostMapping("/posts/edit")
     public String editComplete(@RequestParam Long id, @RequestParam String title, @RequestParam String body ) {
