@@ -5,6 +5,7 @@ import com.spring.springblog.Repositories.PostRepository;
 import com.spring.springblog.Repositories.UserRepository;
 import com.spring.springblog.models.Post;
 
+import com.spring.springblog.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,15 +46,19 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String postForm(){
-        return "Create a post here!";
+    public String showPostForm(Model model){
+        model.addAttribute("post", new Post());
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createPost(){
-        return "Creating a new post...";
+    public String createPost(@ModelAttribute Post post){
+
+        User user = userDao.findAll().get(0);
+        post.setUser(user);
+
+        Post savedPost = postDao.save(post);
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/delete/{id}")
