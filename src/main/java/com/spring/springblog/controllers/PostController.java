@@ -6,10 +6,12 @@ import com.spring.springblog.Repositories.UserRepository;
 import com.spring.springblog.models.Post;
 
 import com.spring.springblog.models.User;
+import com.spring.springblog.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import com.spring.springblog.services.EmailService;
 
 
 import java.util.List;
@@ -20,10 +22,15 @@ public class PostController {
 
     private final PostRepository postDao;
     private final UserRepository userDao;
+    private final UserService userService;
+    private final EmailService emailService;
 
-    public PostController(PostRepository postDao, UserRepository userDao){
+
+    public PostController(PostRepository postDao, UserRepository userDao, UserService userService, EmailService emailService){
         this.postDao = postDao;
         this.userDao = userDao;
+        this.userService = userService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/posts")
@@ -57,7 +64,12 @@ public class PostController {
         User user = userDao.findAll().get(0);
         post.setUser(user);
 
+
         Post savedPost = postDao.save(post);
+        String subject ="You're post has ben created! The title is: " + savedPost.getTitle();
+        String body ="Dear " + savedPost.getUser().getUsername() + ", Thank you for your post!" +
+                "Your ad Id is " + savedPost.getId();
+        emailService.prepareAndSend(savedPost, subject, body);
         return "redirect:/posts";
     }
 
