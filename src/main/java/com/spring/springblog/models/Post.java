@@ -24,7 +24,7 @@ public class Post {
         this.title = title;
         this.body = body;
         this.id = id;
-        user = this.user;
+        this.user = user;
     }
 
     public User getUser() {

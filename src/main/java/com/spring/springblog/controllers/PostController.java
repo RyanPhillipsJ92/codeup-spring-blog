@@ -19,88 +19,93 @@ import java.util.List;
 @Controller
 public class PostController {
 
-
-    private final PostRepository postDao;
-    private final UserRepository userDao;
+    private final PostRepository postsDao;
+    private final UserRepository usersDao;
     private final UserService userService;
     private final EmailService emailService;
 
-
-    public PostController(PostRepository postDao, UserRepository userDao, UserService userService, EmailService emailService){
-        this.postDao = postDao;
-        this.userDao = userDao;
+    public PostController(PostRepository postsDao, UserRepository usersDao, UserService userService, EmailService emailService){
+        this.postsDao = postsDao;
+        this.usersDao = usersDao;
         this.userService = userService;
         this.emailService = emailService;
     }
 
     @GetMapping("/posts")
-    public String postsIndex(Model model){
-        List <Post> posts = postDao.findAll();
+    public String postsIndex(Model model) {
 
-        model.addAttribute("title", "All Posts");
-
-        model.addAttribute("posts", posts);
-
+        model.addAttribute("posts", postsDao.findAll());
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String postView(@PathVariable long id, Model model){
-//        get single post by id
-        model.addAttribute("title", "Single Post");
-        model.addAttribute("post", postDao.getOne(id));
+    public String postView(Model model, @PathVariable long id) {
+//        get single post by id later
+        Post post = postsDao.getOne(id);
+        model.addAttribute("post", post);
         return "posts/show";
     }
 
+    @GetMapping("/posts/edit/{id}")
+    public String viewEditPostForm(@PathVariable long id, Model model) {
+        Post post = postsDao.getOne(id);
+        User user = userService.getLoggedInUser();
+        if (user.getId()==post.getUser().getId()){
+            model.addAttribute("post", postsDao.getOne(id));
+        }else return "redirect:/posts";
+        return "posts/edit";
+    }
+
+    @PostMapping("/posts/edit/{id}")
+    public String updatePost(@PathVariable long id, @ModelAttribute Post post) {
+        //TODO: Change user to logged in user dynamic
+        User user = userService.getLoggedInUser();
+        if (user.getId() == post.getUser().getId()){
+            postsDao.save(post);
+        }
+        else return "redirect:/posts";
+
+
+        return "redirect:/posts";
+    }
+
+    @PostMapping("/posts/delete/{id}")
+    public String deletePost(@PathVariable long id, @ModelAttribute Post post){
+        User user = userService.getLoggedInUser();
+        if (user.getId() == post.getUser().getId()){
+            postsDao.save(post);
+            System.out.println("Deleting post...");
+            postsDao.deleteById(id);
+        }
+        else return "redirect:/posts";
+
+        return "redirect:/posts";
+    }
+
     @GetMapping("/posts/create")
-    public String showPostForm(Model model){
+    public String postForm(Model model){
         model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post post){
-
-        User user = userDao.findAll().get(0);
+    public String createPost(@ModelAttribute Post post) {
+        // Will throw if no users in the db!
+        // In the future, we will get the logged in user
+        User user = userService.getLoggedInUser();
         post.setUser(user);
 
+        Post savedPost = postsDao.save(post);
 
-        Post savedPost = postDao.save(post);
-        String subject ="You're post has ben created! The title is: " + savedPost.getTitle();
-        String body ="Dear " + savedPost.getUser().getUsername() + ", Thank you for your post!" +
-                "Your ad Id is " + savedPost.getId();
+        //send an email when an ad is successfully saved
+        String subject = "New Post Created: " + savedPost.getTitle();
+        String body = "Dear " + savedPost.getUser().getUsername()
+                + ". Thank you for creating a post. Your post id is "
+                + savedPost.getId();
+
         emailService.prepareAndSend(savedPost, subject, body);
         return "redirect:/posts";
     }
-
-    @GetMapping("/posts/delete/{id}")
-    public RedirectView deleteAd (@PathVariable Long id, Model model){
-        if (postDao.findById(id).isPresent()){
-            postDao.deleteById(id);
-            return new RedirectView("/posts");
-        }
-        return new RedirectView("/posts");
-    }
-
-    @GetMapping("/posts/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        Post postToEdit = postDao.getOne(id);
-        model.addAttribute("post", postToEdit);
-
-       return "posts/edit";
-
-
-    }
-    @PostMapping("/posts/edit")
-    public String editComplete(@RequestParam Long id, @RequestParam String title, @RequestParam String body ) {
-        Post post = postDao.getOne(id);
-        post.setTitle(title);
-        post.setBody(body);
-        postDao.save(post);
-        return "redirect:/posts";
-
-    }
-
 }
 
 

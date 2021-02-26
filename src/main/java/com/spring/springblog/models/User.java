@@ -10,42 +10,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
-
-    public User() {
+    public User(){
 
     }
-    public User(long id, String username, String email, String password, List<Post> posts) {
-        id = this.id;
-        username = this.username;
-        email = this.email;
-        password = this.password;
-        posts = this.posts;
-    }
-    public User(String username, String email, String password, List<Post> posts) {
-        username = this.username;
-        email = this.email;
-        password = this.password;
-        posts = this.posts;
-    }
 
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public User(User copy) {
+        this.id = copy.id;
+        this.username = copy.username;
+        this.password = copy.password;
+        this.email = copy.email;
     }
 
     public long getId() {
