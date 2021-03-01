@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="partials/header :: head">
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,6 +10,9 @@
 <body>
 
 <nav th:replace="partials/navbar :: navbar"></nav>
+
+
+
 
 <div class="container">
     <h1 style="text-align: center">Here are all the postings!</h1>
@@ -23,8 +26,11 @@
                     <h3 th:text="${post.title}"></h3>
                     <p th:text="${post.body}"></p>
                     <a class="btn btn-info btn-sm" th:href="@{'/posts/' + ${post.id}}">View</a>
-                    <a class="btn btn-dark btn-sm" th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>
-                    <a class="btn btn-danger btn-sm" th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
+                    <div sec:authorize="isAuthenticated()" th:if="${post.getUser().getId() == #authentication.principal.id}">
+                        <a class="btn btn-dark btn-sm" th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{'/posts/delete/' + ${post.id}}">Delete</a>
+                    </div>
+
                 </div>
             </div>
         </div>
