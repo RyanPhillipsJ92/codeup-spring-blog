@@ -20,11 +20,10 @@ public class HomeController {
         this.userDao = userDao;
         this.encoder = encoder;
     }
-//    @GetMapping("")
-//    @ResponseBody
-//    public String Inititalhome(){
-//        return "/posts";
-//    }
+
+    @GetMapping("")
+    public String startup(){return "redirect:/posts";}
+
 
     @GetMapping("/")
     public String home(){
