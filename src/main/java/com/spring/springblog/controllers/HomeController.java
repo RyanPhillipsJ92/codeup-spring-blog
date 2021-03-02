@@ -20,16 +20,16 @@ public class HomeController {
         this.userDao = userDao;
         this.encoder = encoder;
     }
-    @GetMapping("")
-    @ResponseBody
-    public String Inititalhome(){
-        return "/posts";
-    }
+//    @GetMapping("")
+//    @ResponseBody
+//    public String Inititalhome(){
+//        return "/posts";
+//    }
 
     @GetMapping("/")
     @ResponseBody
     public String home(){
-        return "/posts";
+        return "posts/index";
     }
 
     @GetMapping("/login")
