@@ -17,23 +17,43 @@
     <h1 style="text-align: center">Check this out!</h1>
 </div>
 
-<div class="container" style="text-align: center">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h3 th:text="${post.title}"></h3>
-                    <p th:text="${post.body}"></p>
-                    <p>Posted by: <span th:text="${post.user.email}"></span></p>
-                    <a class="btn btn-info btn-sm" th:href="@{/posts}">All Ads</a>
-<!--                    <a class="btn btn-dark btn-sm" th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>-->
-                </div>
+<!--<div class="container" style="text-align: center">-->
+<!--    <div class="row">-->
+<!--        <div class="col-12">-->
+<!--            <div class="card shadow-sm">-->
+<!--                <div class="card-body">-->
+<!--                    <h3 th:text="${post.title}"></h3>-->
+<!--                    <p th:text="${post.body}"></p>-->
+<!--                    <p>Posted by: <span th:text="${post.user.email}"></span></p>-->
+<!--                    <a class="btn btn-info btn-sm" th:href="@{/posts}">All Ads</a>-->
+<!--&lt;!&ndash;                    <a class="btn btn-dark btn-sm" th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="modal" tabindex="-1" style="text-align: center">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"th:text="${post.title}"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p th:text="${post.body}"></p>
+                <p>Posted by: <span th:text="${post.user.email}"></span></p>
+                <a class="btn btn-info btn-sm" th:href="@{/posts}">All Ads</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--                <button type="button" class="btn btn-primary">Save changes</button>-->
             </div>
         </div>
     </div>
 </div>
-
-
 
 </body>
 </html>
