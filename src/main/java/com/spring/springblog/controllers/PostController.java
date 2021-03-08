@@ -87,6 +87,7 @@ public class PostController {
         return "posts/create";
     }
 
+
     @PostMapping("/posts/create")
     public String createPost(@ModelAttribute Post post) {
         // Will throw if no users in the db!
