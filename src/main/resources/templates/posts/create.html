@@ -5,7 +5,7 @@
 
 
 <div class="container">
-    <h1 class="my-4">Create Ad</h1>
+    <h1 class="my-4">Your Entry</h1>
 
     <form th:action="@{/posts/create}" th:method="POST" th:object="${post}">
         <div class="form-group">
@@ -17,7 +17,10 @@
             <textarea class="form-control" id="body" th:field="*{body}"></textarea>
         </div>
 
-        <input class="btn btn-block btn-primary" type="submit" value="Create Post" />
+        <input type="checkbox" id="GratitudePost" name="GratitudePost" value="True">
+        <label for="GratitudePost"> Will this be viewable on the gratitude board?</label><br>
+
+        <input class="btn btn-block btn-primary" type="submit" value="Submit Entry" />
     </form>
 
 </div>
